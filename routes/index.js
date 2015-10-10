@@ -15,7 +15,12 @@ var auth = jwt({secret: 'SECRET', userProperty: 'payload'});
 /*
 	PARAMS
 */
-// Post parameter
+// Fetches a single category
+router.param('category', function(req, res, next, id) {
+	
+});
+
+// Fetches a single post
 router.param('post', function(req, res, next, id) {
 	var query = Post.findById(id);
 
@@ -33,7 +38,7 @@ router.param('post', function(req, res, next, id) {
 	});
 });
 
-// Comment parameter
+// Fetches a single comment
 router.param('comment', function(req, res, next, id) {
 	var query = Comment.findById(id);
 
@@ -51,7 +56,7 @@ router.param('comment', function(req, res, next, id) {
 	});
 });
 
-// User parameter
+// Fetches a single user
 router.param('user', function(req, res, next, id) {
   	var query = User.findById(id);
 
@@ -72,8 +77,8 @@ router.param('user', function(req, res, next, id) {
 /*
 	POSTS
 */
-// Get all post
-router.get('/posts', function(req, res, next) {
+// Filter posts based on search criteria (works across categories)
+router.get('/posts/search/title', function(req, res, next) {
 	Post.find(function(err, posts) {
 		// Handle errors
 		if(err) { return next(err); }
@@ -83,40 +88,56 @@ router.get('/posts', function(req, res, next) {
 	});
 });
 
-// Add post
-router.post('/posts', function(req, res, next) {
-	// Create a new post from the sent body
-	var post = new Post(req.body);
-
-	post.save(function(err, post){
-		// Handle errors
-		if(err){ return next(err); }
-		
-		// Return the post
-	   	res.json(post);
-	});
+/*
+	CATEGORIES
+*/
+// Get all categories
+router.get('/categories', function(req, res, next) {
+	
 });
 
-// Get single post
-router.get('/posts/:post', function(req, res, next) {
-	res.json(req.post);
+// Make a new category
+router.post('/categories', auth, function(req, res, next) {
+	
 });
 
-// Update single posts body
-router.put('/posts/:post/body', function(req, res, next) {
-	req.post.body = req.body.body;
+// Get a single category
+router.get('/categories/:category', function(req, res, next) {
+	
+});
 
-	req.post.save(function(err, post) {
-		// Handle errors
-		if(err){ return next(err); }
+// Update a category
+router.put('/categories/:category', auth, function(req, res, next) {
+	
+});
 
-		// Return the post
-	   	res.json(post);
-	});
+// Get posts related to a single category
+router.get('/categories/:category/posts', function(req, res, next) {
+	
+});
+
+// Filter all posts based on search criteria
+router.get('/categories/:category/posts/search/title', function(req, res, next) {
+	
+});
+
+// Make a new post in a category
+router.post('/categories/:category/posts', auth, function(req, res, next) {
+	
+});
+
+// Get a single post from a category
+router.get('/categories/:category/posts/:post', function(req, res, next) {
+	
+});
+
+// Update a post in a category
+router.put('/categories/:category/posts/:post', auth, function(req, res, next) {
+	
 });
 
 // Upvote a post
-router.put('/posts/:post/upvote', function(req, res, next) {
+router.put('/categories/:category/posts/:post/upvote', auth, function(req, res, next) {
 	req.post.upvote(function(err, post) {
 		// Handle errors
 		if(err) { return next(err); }
@@ -126,7 +147,7 @@ router.put('/posts/:post/upvote', function(req, res, next) {
 });
 
 // Downvote a post
-router.put('/posts/:post/downvote', function(req, res, next) {
+router.put('/categories/:category/posts/:post/downvote', auth, function(req, res, next) {
 	req.post.downvote(function(err, post) {
 		// Handle errors
 		if(err) { return next(err); }
@@ -136,36 +157,17 @@ router.put('/posts/:post/downvote', function(req, res, next) {
 });
 
 // Get all comments associated with a post
-router.get('/posts/:post/comments', function(req, res, next) {
+router.get('/categories/:category/posts/:post/comments', function(req, res, next) {
 	res.json(req.post.comments);
 });
 
-// Add a new comment to a post
-router.post('/posts/:post/comments', function(req, res, next) {
-	var comment = new Comment(req.body);
-
-	// Add the reference to the related post
-	comment.post = req.post;
-
-	comment.save(function(err, comment) {
-		// Handle errors
-		if(err){ return next(err); }
-
-		// Add the comment to the related post
-		req.post.comments.push(comment);
-
-		req.post.save(function(err, post) {
-			// Handle errors
-			if(err){ return next(err); }
-
-			// Return the comment
-			res.json(comment);
-		});
-	});
+// Make a comment on a post in a category
+router.post('/categories/:category/posts/:post/comments', auth, function(req, res, next) {
+	
 });
 
 // Update a comments body
-router.put('/posts/:post/comments/:comment/body', function(req, res, next) {
+router.put('/categories/:category/posts/:post/comments/:comment/body', auth, function(req, res, next) {
 	req.comment.body = req.body.body;
 
 	req.comment.save(function(err, comment) {
@@ -178,7 +180,7 @@ router.put('/posts/:post/comments/:comment/body', function(req, res, next) {
 });
 
 // Upvote a comment
-router.put('/posts/:post/comments/:comment/upvote', function(req, res, next) {
+router.put('/categories/:category/posts/:post/comments/:comment/upvote', auth, function(req, res, next) {
 	req.comment.upvote(function(err, comment) {
 		// Handle errors
 		if(err) { return next(err); }
@@ -188,7 +190,7 @@ router.put('/posts/:post/comments/:comment/upvote', function(req, res, next) {
 });
 
 // Downvote a comment
-router.put('/posts/:post/comments/:comment/downvote', function(req, res, next) {
+router.put('/categories/:category/posts/:post/comments/:comment/downvote', auth, function(req, res, next) {
 	req.comment.downvote(function(err, comment) {
 		// Handle errors
 		if(err) { return next(err); }
@@ -202,12 +204,67 @@ router.put('/posts/:post/comments/:comment/downvote', function(req, res, next) {
 */
 // Register a user
 router.post('/register', function(req, res, next) {
+	// Validation
+	if(!req.body.username || !req.body.password){
+		return res.status(400).json({message: 'Please fill out all fields'});
+	}
 
+	// Create a new user and set the fields
+	var user = new User();
+	user.username = req.body.username;
+	user.setPassword(req.body.password)
+
+	user.save(function (err){
+		if(err){ return next(err); }
+
+		// Return the generated JWT
+		return res.json({token: user.generateJWT()})
+	});
 });
 
 // Login a user
 router.post('/login', function(req, res, next) {
+	// Validation
+	if(!req.body.username || !req.body.password){
+		return res.status(400).json({message: 'Please fill out all fields'});
+	}
 
+	// Authenticate the user with passport
+	passport.authenticate('local', function(err, user, info){
+		// Handle errors
+	    if(err){ return next(err); }
+
+	    // Make sure the user exists
+	    if(user){
+	    	// Return the generated JWT
+	      	return res.json({token: user.generateJWT()});
+	    } else {
+	    	// Handle the error and send info with the response
+	      	return res.status(401).json(info);
+	    }
+  	})(req, res, next);
 });
+
+// Fetch a users information (comments, posts, upvoted and downvoted posts)
+router.get('/users/:user/information', function(req, res, next) {
+	
+});
+
+// Get the users categories, if not logged in, return a list of defaults
+router.get('/users/:user/categories', function(req, res, next) {
+	
+});
+
+// Add a category to the users categories
+router.post('/users/:user/categories', auth, function(req, res, next) {
+	
+});
+
+// Delete a category from the users categories
+router.delete('/users/:user/categories/:category', auth, function(req, res, next) {
+	
+});
+
+
 
 module.exports = router;
