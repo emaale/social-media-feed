@@ -91,8 +91,8 @@ router.get('/posts/search/title', function(req, res, next) {
 /*
 	CATEGORIES
 */
-// Get all categories
-router.get('/categories', function(req, res, next) {
+// Get all categories based on search criteria
+router.get('/categories/search/name', function(req, res, next) {
 	
 });
 
@@ -265,6 +265,14 @@ router.delete('/users/:user/categories/:category', auth, function(req, res, next
 	
 });
 
+// Get all messages from other users (:user in this case is the recipient)
+router.get('/users/:user/messages', auth, function(req, res, next) {
 
+});
+
+// Send a message to another user (:user in this case is the recipient)
+router.post('/users/:user/messages', auth, function(req, res, next) {
+
+});
 
 module.exports = router;
