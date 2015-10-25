@@ -11,6 +11,7 @@ var passport = require('passport');
 require('./models/Posts');
 require('./models/Comments');
 require('./models/Users');
+require('./models/Categories');
 
 // Passport config
 require('./config/passport');

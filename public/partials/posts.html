@@ -1,0 +1,17 @@
+<section class="posts box">
+	<article ng-repeat="post in posts" class="post-preview">
+		
+		<!-- Vote score -->
+		<span>{{ post.upvotes.length - post.downvotes.length }}</span>
+
+
+		<!-- Date and author -->
+		<span>Submitted at {{ post.created_at | date }} by <a href="/user/{{ post.author.username }}" class="user">{{ post.author.username }}</a></span>
+
+		<!-- Number of comments -->
+		<span>{{ post.comments.length }} Comments</span>
+	</article>
+
+</section>
+
+<aside class="category-controls box"></aside>

@@ -9,7 +9,10 @@ var UserSchema = new mongoose.Schema({
   	created_at: { type: Date, default: Date.now },
   	updated_at: { type: Date, default: Date.now },
   	comments: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Comment' }],
-  	posts: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Post' }]
+  	posts: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Post' }],
+  	savedCategories: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Category' }],
+  	upvotedPosts: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Post' }],
+  	downvotedPosts: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Post' }]
 });
 
 UserSchema.methods.setPassword = function(password){
