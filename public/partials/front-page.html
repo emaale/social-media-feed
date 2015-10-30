@@ -23,18 +23,10 @@
 		</div>
 	</article>
 
-	<p ng-show="posts.length == 0" class="error">There doesn't seem to be any posts here! Please <a ui-sref="newPost({ category: category.name })">submit</a> one!</p>
 </section>
 
 <aside class="category-controls box">
-	<!-- Edit post link, only displays for owners of post -->
-	<a ui-sref="editCategory({ category: category.name })" ng-show="currentUser()._id == category.owner_id"><span class="icon-pencil edit-post-link"></span></a>
-
-	<h3 class="category-name">{{ category.name }}</h3>
-
-	<p class="category-description">{{ category.description }}</p>
-
 	<!-- Login button and message if not logged in -->
-	<a ui-sref="newPost({ category: category.name })" ng-show="isLoggedIn()" class="new-post-btn"><span class="icon-pencil"></span> Submit New Post</a>
-	<p ng-hide="isLoggedIn()" class="not-logged-in">To make new posts you need to <a ui-sref="login">login</a></p>
+	<a ui-sref="newCategory" ng-show="isLoggedIn()" class="new-post-btn"><span class="icon-pencil"></span> Submit New Category</a>
+	<p ng-hide="isLoggedIn()" class="not-logged-in">To make a new category you need to <a ui-sref="login">login</a></p>
 </aside>

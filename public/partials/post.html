@@ -1,5 +1,69 @@
-<article class="post box">
+<article class="post box group">
+	<!-- Vote score -->
+	<div class="vote">
+		<span ng-click="upvotePost(post)" ng-class="{active: post.upvotes.indexOf(currentUser()._id) != -1}" class="icon-arrow-up vote-toggler"></span>
+		<span class="vote-score">{{ post.upvotes.length - post.downvotes.length }}</span>
+		<span ng-click="downvotePost(post)" ng-class="{active: post.downvotes.indexOf(currentUser()._id) != -1}" class="icon-arrow-down vote-toggler"></span>
+	</div>
+
+	<div class="post-content">
+		<!-- Title -->
+		<a href="{{post.link}}" ng-show="post.link"><h3 class="post-title">{{ post.title }}</h3></a>
+		<a ui-sref="post({ category: post.category.name, postId: post._id })" ng-hide="post.link"><h3 class="post-title">{{ post.title }}</h3></a>
+
+		<!-- Date and author -->
+		<span>Submitted at {{ post.created_at | date }} by <a ui-sref="user({ username: post.author.username })" class="user-link">{{ post.author.username }}</a></span>
+
+		<section ng-show="post.body" class="post-body">{{ post.body }}</section>
+
+		<footer>
+			<!-- Number of comments -->
+			<a ui-sref="post({ category: post.category.name, postId: post._id })" class="comment-link">{{ post.comments.length }} Comments</a>
+		</footer>
+
+		<!-- Edit post link, only displays for owners of post -->
+		<a ui-sref="editPost({ category: category.name, postId: post._id })" ng-show="currentUser()._id == post.author._id"><span class="icon-pencil edit-post-link"></span></a>
+	</div>
 
 </article>
 
-<aside class="comments"></aside>
+<aside class="category-controls box">
+	<h3 class="category-name">{{ category.name }}</h3>
+
+	<p class="category-description">{{ category.description }}</p>
+
+	<!-- Login button and message if not logged in -->
+	<a ui-sref="newPost({ category: category.name })" ng-show="isLoggedIn()" class="new-post-btn"><span class="icon-pencil"></span> Submit New Post</a>
+	<p ng-hide="isLoggedIn()" class="not-logged-in">To make new posts you need to <a ui-sref="login">login</a></p>
+</aside>
+
+<aside class="comments">
+	<select class="comments-sort" name="sorter" ng-init="sortBy = '-upvotes.length - downvotes.length'" ng-model="sortBy">
+	      <option value="created_at">Date Newer</option>
+	      <option value="-created_at">Date Older</option>
+	      <option value="-upvotes.length - downvotes.length">Score highest</option>
+	      <option value="upvotes.length - downvotes.length">Score lowest</option>
+	</select>
+
+	<form class="new-comment-form" ng-show="isLoggedIn()" ng-submit="newComment()">
+		<textarea ng-model="body" class="box" placeholder="Share your thoughts..." required></textarea>
+		<button>SEND</button>
+	</form>
+
+	<p ng-hide="isLoggedIn()">Please <a ui-sref="login">login</a> to comment on this post.</p>
+
+	<article ng-repeat="comment in post.comments | orderBy:sortBy" class="comment box">
+		<!-- Vote score -->
+		<div class="vote">
+			<span ng-click="upvoteComment(comment)" ng-class="{active: comment.upvotes.indexOf(currentUser()._id) != -1}" class="icon-arrow-up vote-toggler"></span>
+			<span class="vote-score">{{ comment.upvotes.length - comment.downvotes.length }}</span>
+			<span ng-click="downvoteComment(comment)" ng-class="{active: comment.downvotes.indexOf(currentUser()._id) != -1}" class="icon-arrow-down vote-toggler"></span>
+		</div>
+
+		<a ui-sref="user({ username: comment.author })" class="user-link">{{ comment.author }}</a>
+
+		<p>{{ comment.body }}</p>
+	</article>
+
+	<p ng-show="post.comments.length == 0" class="error">There doesn't seem to be any comments here! Please share your thoughts!</p>
+</aside>

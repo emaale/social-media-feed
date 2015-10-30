@@ -125,8 +125,12 @@ router.post('/categories', auth, function(req, res, next) {
 
 // Get a single category
 router.get('/categories/:category', function(req, res, next) {
-	// Return category
-	res.json(req.category);
+	req.category.deepPopulate('posts.author', function(err, category) {
+		// Handle errors
+		if(err) { return next(err); }
+
+		res.json(category);
+	});
 });
 
 // Update a category
@@ -151,7 +155,7 @@ router.put('/categories/:category', auth, function(req, res, next) {
 // Get posts related to a single category
 router.get('/categories/:category/posts', function(req, res, next) {
 	// Return posts
-	Post.find({ category: req.category }).populate('author').exec(function(err, posts) {
+	Post.find({ category: req.category }).populate('author category').exec(function(err, posts) {
 		// Handle errors
 		if(err) { return next(err); }
 
@@ -200,12 +204,6 @@ router.post('/categories/:category/posts', auth, function(req, res, next) {
 	});
 });
 
-// Get all moderators in the category
-router.get('/categories/:category/moderators', function(req, res, next) {
-	// Return posts
-	res.json(req.category.moderators);
-});
-
 // Filter all posts based on search criteria
 router.get('/categories/:category/posts/search/title/:title', function(req, res, next) {
 	Post.find({title: new RegExp(req.params.title, "i"), category: req.category}, function(err, posts) {
@@ -219,7 +217,12 @@ router.get('/categories/:category/posts/search/title/:title', function(req, res,
 
 // Get a single post from a category
 router.get('/categories/:category/posts/:post', function(req, res, next) {
-	res.json(req.post);
+	Post.findOne({ _id: req.post._id }).populate('author comments category').exec(function(err, post) {
+		// Handle errors
+		if(err) { return next(err) };
+
+		res.json(post);
+	});
 });
 
 // Update a post in a category
@@ -229,6 +232,8 @@ router.put('/categories/:category/posts/:post', auth, function(req, res, next) {
 		// Update the body and update_at fields
 		req.post.body = req.body.body;
 		req.post.updated_at = new Date();
+		req.post.title = req.body.title;
+		req.post.link = req.body.link;
 
 		req.post.save(function(err, post) {
 			// Handle errors
@@ -244,14 +249,21 @@ router.put('/categories/:category/posts/:post', auth, function(req, res, next) {
 
 // Upvote a post
 router.put('/categories/:category/posts/:post/upvote', auth, function(req, res, next) {
-	req.post.upvote(req.payload, false, function(err, post) {
+	req.post.toggleUpvote(req.payload, function(err, post) {
 		// Handle errors
 		if(err) { return next(err); }
 
 		// Add post to the users upvoted posts
 		User.findOne({ _id: req.payload._id }, function(err, user) {
-			user.upvotedPosts.pull({ _id: post._id });
-			user.upvotedPosts.push({ _id: post._id });
+			// Toggle the users upvote
+			if(user.upvotedPosts.indexOf(post._id) !== -1) {
+				// Remove post reference from array
+				user.upvotedPosts.pull({ _id: post._id });
+			} else {
+				// Add post reference to array
+				user.downvotedPosts.pull({ _id: post._id });
+				user.upvotedPosts.push({ _id: post._id });
+			}
 
 			user.save(function(err, user) {
 				// Handle errors
@@ -265,14 +277,21 @@ router.put('/categories/:category/posts/:post/upvote', auth, function(req, res, 
 
 // Downvote a post
 router.put('/categories/:category/posts/:post/downvote', auth, function(req, res, next) {
-	req.post.downvote(req.payload, false, function(err, post) {
+	req.post.toggleDownvote(req.payload, function(err, post) {
 		// Handle errors
 		if(err) { return next(err); }
 
-		// Add post to the users upvoted posts
+		// Add post to the users downvoted posts
 		User.findOne({ _id: req.payload._id }, function(err, user) {
-			user.downvotedPosts.pull({ _id: post._id });
-			user.downvotedPosts.push({ _id: post._id });
+			// Toggle the users downvote
+			if(user.downvotedPosts.indexOf(post._id) !== -1) {
+				// Remove post reference from array
+				user.downvotedPosts.pull({ _id: post._id });
+			} else {
+				// Add post reference to array
+				user.upvotedPosts.pull({ _id: post._id });
+				user.downvotedPosts.push({ _id: post._id });
+			}
 
 			user.save(function(err, user) {
 				// Handle errors
@@ -336,7 +355,7 @@ router.put('/categories/:category/posts/:post/comments/:comment/body', auth, fun
 
 // Upvote a comment
 router.put('/categories/:category/posts/:post/comments/:comment/upvote', auth, function(req, res, next) {
-	req.comment.upvote(req.payload, false, function(err, comment) {
+	req.comment.toggleUpvote(req.payload, function(err, comment) {
 		// Handle errors
 		if(err) { return next(err); }
 
@@ -346,7 +365,7 @@ router.put('/categories/:category/posts/:post/comments/:comment/upvote', auth, f
 
 // Downvote a comment
 router.put('/categories/:category/posts/:post/comments/:comment/downvote', auth, function(req, res, next) {
-	req.comment.downvote(req.payload, false, function(err, comment) {
+	req.comment.toggleDownvote(req.payload, function(err, comment) {
 		// Handle errors
 		if(err) { return next(err); }
 

@@ -13,32 +13,36 @@ var PostSchema = new mongoose.Schema({
 	category: { type: mongoose.Schema.Types.ObjectId, ref: 'Category' }
 });
 
-PostSchema.methods.upvote = function(user, removeUpvote, cb) {
-	// Clear previous votes made by the user
-	this.clearUserVotes(user);
-
-	if(!removeUpvote) {
+PostSchema.methods.toggleUpvote = function(user, cb) {
+	// Make sure we remove potential downvotes
+	this.downvotes.pull({ _id: user._id });
+	
+	// Check whether we want to add or remove the upvote
+	if(this.upvotes.indexOf(user._id) !== -1) {
+		// Remove user reference from array
+		this.upvotes.pull({ _id: user._id });
+	} else {
+		// Add user reference to array
 		this.upvotes.push({ _id: user._id });
 	}
-	
+
 	this.save(cb);
 };
 
-PostSchema.methods.downvote = function(user, removeDownvote, cb) {
-	// Clear previous votes made by the user
-	this.clearUserVotes(user);
+PostSchema.methods.toggleDownvote = function(user, cb) {
+	// Make sure we remove potential upvotes
+	this.upvotes.pull({ _id: user._id });
 
-	if(!removeDownvote) {
+	// Check whether we want to add or remove the downvote
+	if(this.downvotes.indexOf(user._id) !== -1) {
+		// Remove user reference from array
+		this.downvotes.pull({ _id: user._id });
+	} else {
+		// Add user reference to array
 		this.downvotes.push({ _id: user._id });
 	}
 	
 	this.save(cb);
-};
-
-PostSchema.methods.clearUserVotes = function(user) {
-	// Remove user from upvotes and downvotes
-	this.upvotes.pull({ _id: user._id });
-	this.downvotes.pull({ _id: user._id });
 };
 
 mongoose.model('Post', PostSchema);

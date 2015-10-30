@@ -28,7 +28,7 @@ app.factory('auth', ['$http', '$window', function($http, $window) {
 			var token = auth.getToken();
 			var payload = JSON.parse($window.atob(token.split('.')[1]));
 
-			return payload.username;
+			return { username: payload.username, _id: payload._id };
 		}
 	};
 
@@ -42,6 +42,10 @@ app.factory('auth', ['$http', '$window', function($http, $window) {
 		return $http.post('/login', user).success(function(data){
 			auth.saveToken(data.token);
 		});
+	};
+
+	auth.logOut = function() {
+		$window.localStorage.removeItem('news-feed-token');
 	};
 
 	return auth;

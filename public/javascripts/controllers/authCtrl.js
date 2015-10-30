@@ -1,5 +1,5 @@
 // Controller for the authentication
-app.controller('AuthCtrl', ['$scope', '$state', 'auth', function($scope, $stateParams, auth) {
+app.controller('AuthCtrl', ['$scope', '$state', 'auth', function($scope, $state, auth) {
 	$scope.user = {};
 
 	$scope.register = function(){

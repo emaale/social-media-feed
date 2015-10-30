@@ -1,0 +1,10 @@
+<form class="entry box" ng-submit="newCategory()">
+	<h2>New Category</h2>
+
+	<input ng-model="name" type="text" placeholder="Name" required>
+	<textarea ng-model="description" placeholder="Description" required></textarea>
+	
+	<p ng-show="error">{{ error }}</p>
+
+	<button>Submit</button>
+</form>
