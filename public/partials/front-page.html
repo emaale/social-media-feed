@@ -10,7 +10,7 @@
 		<div class="post-content">
 			<!-- Title -->
 			<a href="{{post.link}}" ng-show="post.link"><h3 class="post-title">{{ post.title }}</h3></a>
-			<a href="/c/{{post.category.name}}/posts/{{post._id}}" ng-hide="post.link"><h3 class="post-title">{{ post.title }}</h3></a>
+			<a ui-sref="post({ category: post.category.name, postId: post._id })" ng-hide="post.link"><h3 class="post-title">{{ post.title }}</h3></a>
 
 			<!-- Date and author -->
 			<span>Submitted at {{ post.created_at | date }} by <a ui-sref="user({ username: post.author.username })" class="user-link">{{ post.author.username }}</a></span>
