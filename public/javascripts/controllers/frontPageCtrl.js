@@ -7,13 +7,16 @@ app.controller('FrontPageCtrl', ['$scope', 'auth', 'category', 'post', 'page', '
 	page.setTitle('Front Page');
 
 	$scope.newCategory = function() {
+		// Validate
 		if((!$scope.name || $scope.name === '') && (!$scope.description || $scope.description === '')) { return; }
 
+		// Create the category with the factory
 		category.create({
 			name: $scope.name,
 			description: $scope.description
 		}).success(function(data) {
-			$state.go('posts', { category: $scope.name });
+			// Go to the state and turn name into lowercase since that's what's stored in the db
+			$state.go('posts', { category: $scope.name.toLowerCase() });
 		}).error(function(err) {
 			$scope.error = err;
 		});
