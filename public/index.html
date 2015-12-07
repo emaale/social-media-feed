@@ -20,20 +20,20 @@
     <script type="text/javascript" src="/javascripts/factories/page.js"></script>
 
     <!-- Controllers -->
-    <script type="text/javascript" src="/javascripts/controllers/mainCtrl.js"></script>
     <script type="text/javascript" src="/javascripts/controllers/postCtrl.js"></script>
     <script type="text/javascript" src="/javascripts/controllers/postsCtrl.js"></script>
     <script type="text/javascript" src="/javascripts/controllers/navCtrl.js"></script>
     <script type="text/javascript" src="/javascripts/controllers/userCtrl.js"></script>
     <script type="text/javascript" src="/javascripts/controllers/authCtrl.js"></script>
     <script type="text/javascript" src="/javascripts/controllers/frontPageCtrl.js"></script>
+    <script type="text/javascript" src="/javascripts/controllers/searchCtrl.js"></script>
 
   </head>
   <body ng-app="newsFeedApp">
     <!-- Header -->
-    <header class="page-header" ng-controller="MainCtrl">
+    <header class="page-header" ng-controller="NavCtrl">
     	<!-- Navigation -->
-    	<nav ng-controller="NavCtrl" class="top-nav">
+    	<nav class="top-nav">
     		<!-- Saved categories or a list of default -->
     		<ul class="left-nav">
     			<button class="expandable-nav-toggler" ng-click="show = !show">My Categories <span class="icon-arrow_drop_down"></span></button>
@@ -49,16 +49,20 @@
     		<!-- User controls -->
     		<ul class="right-nav">
                 <!-- Displayed when logged in -->
-                <!-- <a href="" ng-show="isLoggedIn()" ng-click="logOut()">Logout</a> -->
                 <a ui-sref="user({ username: currentUser().username })" ng-show="isLoggedIn()">{{ currentUser().username }}</a>
+                <a href="" ng-show="isLoggedIn()" ng-click="logOut()"><span class="icon-power"></span></a>
 
                 <!-- Displayed when logged out -->
-    			<a ui-sref="login" ng-hide="isLoggedIn()">Log in!</a>
+    			<a ui-sref="login" ng-hide="isLoggedIn()">Log In</a>
     		</ul>
     	</nav>
 
-    	<!-- Logo -->
-    	<h1 class="page-logo">{{ page.title() }}</h1>
+        <footer class="page-header-footer">
+            <!-- Logo -->
+            <h1 class="page-logo">{{ page.title() }}</h1>
+
+            <input ng-model="searchQuery" ng-change="search()" class="search-bar" type="text" placeholder="Search...">    
+        </footer>
     </header>
 
     <!-- Page wrapper -->

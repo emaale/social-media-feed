@@ -7,7 +7,21 @@ app.config(['$stateProvider','$urlRouterProvider', function($stateProvider, $url
       url: '/',
       templateUrl: '/partials/front-page.html',
       controller: 'FrontPageCtrl',
-
+      resolve: {
+        fetchedPosts: ['post', function(post) {
+          return post.getAll();
+        }]
+      }
+    })
+    .state('searchPosts', {
+      url: '/posts/query/:q',
+      templateUrl: '/partials/search-posts.html',
+      controller: 'SearchCtrl',
+      resolve: {
+        fetchedPosts: ['post', function(post) {
+          return post.getAll();
+        }]
+      }
     })
     .state('login', {
       url: '/login',

@@ -318,11 +318,21 @@ a {
 	margin-right: 10px;
 }
 
-.page-header .page-logo {
+.page-header footer .page-logo {
 	color: white;
 	font-weight: 300;
-	margin-top: 0;
-	padding: 65px 400px 70px 40px;
+	margin: 0;
+	display: inline-block;
+}
+.page-header footer {
+	padding: 65px 40px 90px 40px;
+}
+.page-header footer .search-bar {
+	float: right;
+	padding: 8px 15px;
+	border: 0;
+	border-radius: 2px;
+	width: 230px;
 }
 
 .page-footer {
@@ -452,4 +462,6 @@ a {
 .icon-arrow-left:before {
 	content: "\e905";
 }
-
+.icon-power:before {
+    content: "\e2c0";
+}

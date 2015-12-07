@@ -10,7 +10,7 @@ app.factory('post', ['$http', 'auth', function($http, auth) {
 	};
 
 	o.getAll = function() {
-		return $http.get('/categories/' + categoryId + '/posts').then(function(res) {
+		return $http.get('/posts').then(function(res) {
 			return res.data;
 		});
 	};

@@ -1,5 +1,5 @@
 <section class="posts group-box">
-	<article ng-repeat="post in posts" class="post-preview group">
+	<article ng-repeat="post in posts | orderBy:'-upvotes.length - downvotes.length'" class="post-preview group">
 		<!-- Vote score -->
 		<div class="vote">
 			<span ng-click="upvotePost(post)" ng-class="{active: post.upvotes.indexOf(currentUser()._id) != -1}" class="icon-arrow-up vote-toggler"></span>
@@ -16,10 +16,10 @@
 			<span>Submitted at {{ post.created_at | date }} by <a ui-sref="user({ username: post.author.username })" class="user-link">{{ post.author.username }}</a></span>
 
 			<!-- Number of comments -->
-			<a ui-sref="post({ category: category.name, postId: post._id })" class="comment-link">{{ post.comments.length }} Comments</a>
+			<a ui-sref="post({ category: post.category.name, postId: post._id })" class="comment-link">{{ post.comments.length }} Comments</a>
 
 			<!-- Edit post link, only displays for owners of post -->
-			<a ui-sref="editPost({ category: category.name, postId: post._id })" ng-show="currentUser()._id == post.author._id"><span class="icon-pencil edit-post-link"></span></a>
+			<a ui-sref="editPost({ category: post.category.name, postId: post._id })" ng-show="currentUser()._id == post.author._id"><span class="icon-pencil edit-post-link"></span></a>
 		</div>
 	</article>
 

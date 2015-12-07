@@ -1,7 +1,8 @@
 // Controller for the categories
-app.controller('FrontPageCtrl', ['$scope', '$stateParams', 'auth', 'category', 'page', '$state', function($scope, $stateParams, auth, category, page, $state) {
+app.controller('FrontPageCtrl', ['$scope', 'auth', 'category', 'post', 'page', '$state', 'fetchedPosts', function($scope, auth, category, post, page, $state, fetchedPosts) {
 	$scope.currentUser = auth.currentUser;
 	$scope.isLoggedIn = auth.isLoggedIn;
+	$scope.posts = fetchedPosts;
 
 	page.setTitle('Front Page');
 
@@ -16,5 +17,14 @@ app.controller('FrontPageCtrl', ['$scope', '$stateParams', 'auth', 'category', '
 		}).error(function(err) {
 			$scope.error = err;
 		});
+	};
+
+	$scope.upvotePost = function(thePost) {
+		console.log(thePost);
+		post.upvote(thePost.category.name, thePost);
+	};
+
+	$scope.downvotePost = function(thePost) {
+		post.downvote(thePost.category.name, thePost);
 	};
 }]);
