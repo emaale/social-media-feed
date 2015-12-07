@@ -47,6 +47,11 @@ app.config(['$stateProvider','$urlRouterProvider', function($stateProvider, $url
       url: '/categories/new',
       templateUrl: '/partials/new-category.html',
       controller: 'FrontPageCtrl',
+      resolve: {
+        fetchedPosts: ['post', function(post) {
+          return post.getAll();
+        }]
+      }
     })
     .state('editCategory', {//Add button for this in the sidebar
       url: '/c/:category/edit',
