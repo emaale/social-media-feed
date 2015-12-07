@@ -95,7 +95,7 @@ router.get('/posts/search/title/:title', function(req, res, next) {
 
 // Get all posts
 router.get('/posts', function(req, res, next) {
-	Post.find().populate('category').exec(function(err, posts) {
+	Post.find().populate('category author').exec(function(err, posts) {
 		// Handle errors
 		if(err) { return next(err); }
 

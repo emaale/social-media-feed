@@ -6,7 +6,7 @@
 			<span class="vote-score">{{ post.upvotes.length - post.downvotes.length }}</span>
 			<span ng-click="downvotePost(post)" ng-class="{active: post.downvotes.indexOf(currentUser()._id) != -1}" class="icon-arrow-down vote-toggler"></span>
 		</div>
-
+		
 		<div class="post-content">
 			<!-- Title -->
 			<a href="{{post.link}}" ng-show="post.link"><h3 class="post-title">{{ post.title }}</h3></a>
