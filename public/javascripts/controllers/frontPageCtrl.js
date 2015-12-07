@@ -3,6 +3,7 @@ app.controller('FrontPageCtrl', ['$scope', 'auth', 'category', 'post', 'page', '
 	$scope.currentUser = auth.currentUser;
 	$scope.isLoggedIn = auth.isLoggedIn;
 	$scope.posts = fetchedPosts;
+	$scope.error = false;
 
 	page.setTitle('Front Page');
 
