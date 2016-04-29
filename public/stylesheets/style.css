@@ -159,7 +159,7 @@ a {
 	border: 1px solid #dedede;
 	margin-bottom: 5px;
 	padding: 10px;
-	font-size: 16px;
+	font-size: 14px;
 }
 .entry button {
 	width: 100%;
@@ -170,7 +170,7 @@ a {
 	border: 0;
 	margin-top: 20px;
 	font-weight: 300;
-	font-size: 16px;
+	font-size: 14px;
 }
 
 .category-controls {
@@ -328,6 +328,7 @@ a {
 }
 .page-header footer {
 	padding: 65px 40px 90px 40px;
+	max-width: 1200;
 }
 .page-header footer .search-bar {
 	float: right;
