@@ -28,7 +28,7 @@
 </article>
 
 <aside class="category-controls box">
-	<a href="/c/{{ category.name }}" class="category-name">{{ category.name }}</a>
+	<a ui-href="posts({ category: category.name })" class="category-name">{{ category.name }}</a>
 
 	<p class="category-description">{{ category.description }}</p>
 
