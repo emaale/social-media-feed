@@ -54,8 +54,8 @@
     		<!-- User controls -->
     		<nav class="right-nav">
                 <!-- Displayed when logged in -->
-                <a data-ui-sref="user({ username: currentUser().username })" data-ng-show="isLoggedIn()">{{ currentUser().username }}</a>
-                <a href="" data-ng-show="isLoggedIn()" data-ng-click="logOut()"><span class="icon-power_settings_new"></span></a>
+                <a data-ui-sref="user({ username: currentUser().username })" data-ng-show="isLoggedIn">{{ currentUser().username }}</a>
+                <a href="" data-ng-show="isLoggedIn" data-ng-click="logOut()"><span class="icon-power_settings_new"></span></a>
 
                 <!-- Displayed when logged out -->
     			<a data-ui-sref="login" data-ng-hide="isLoggedIn">Log In</a>

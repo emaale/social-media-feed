@@ -52,12 +52,12 @@
 	      <option value="upvotes.length - downvotes.length">Score lowest</option>
 	</select>
 
-	<form class="new-comment-form" ng-show="isLoggedIn()" ng-submit="newComment()">
+	<form class="new-comment-form" ng-show="isLoggedIn" ng-submit="newComment()">
 		<textarea ng-model="body" class="box" placeholder="Share your thoughts..." required></textarea>
 		<button>SEND</button>
 	</form>
 
-	<p ng-hide="isLoggedIn()">Please <a ui-sref="login">login</a> to comment on this post.</p>
+	<p ng-hide="isLoggedIn">Please <a ui-sref="login">login</a> to comment on this post.</p>
 
 	<article ng-repeat="comment in post.comments | orderBy:sortBy" class="comment box">
 		<!-- Vote score -->
