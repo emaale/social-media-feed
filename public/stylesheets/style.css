@@ -369,18 +369,18 @@ a:hover {
 	font-size: 14px;
 	line-height: 20px;
 }
-.page-header footer .page-logo {
+.page-header .page-header-footer .page-logo {
 	color: white;
 	font-weight: 300;
 	margin: 0;
 	display: inline-block;
 }
-.page-header footer {
+.page-header .page-header-footer {
 	padding: 90px 20px 90px 20px;
 	max-width: 1200px;
 	margin: 0 auto;
 }
-.page-header footer .search-bar {
+.page-header .page-header-footer .search-bar {
 	float: right;
 	padding: 12px 15px;
 	border: 0;
@@ -502,10 +502,6 @@ a:hover {
 	font-variant: normal;
 	text-transform: none;
 	line-height: 1;
-
-	/* Better Font Rendering =========== */
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
 }
 
 .icon-schedule:before {
