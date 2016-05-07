@@ -18,8 +18,8 @@ app.config(['$stateProvider','$urlRouterProvider', function($stateProvider, $url
       templateUrl: '/partials/search-posts.html',
       controller: 'SearchCtrl',
       resolve: {
-        fetchedPosts: ['post', function(post) {
-          return post.getAll();
+        fetchedPosts: ['post', '$stateParams', function(post, $stateParams) {
+          return post.search($stateParams.q);
         }]
       }
     })
@@ -42,6 +42,28 @@ app.config(['$stateProvider','$urlRouterProvider', function($stateProvider, $url
           $state.go('home');
         }
       }]
+    })
+    .state('savedCategories', {
+      url: '/c/saved',
+      templateUrl: '/partials/saved-categories.html',
+      controller: 'SavedCategoriesCtrl',
+      resolve: {
+        savedCategories: ['user', function(user) {
+          return user.getSavedCategories().then(function(res) {
+            return user.savedCategories;
+          });
+        }]
+      }
+    })
+    .state('categories', {
+      url: '/categories',
+      templateUrl: '/partials/categories.html',
+      controller: 'CategoryCtrl',
+      resolve: {
+        fetchedCategories: ['category', function(category) {
+          return category.getAll();
+        }]
+      }
     })
     .state('newCategory', {
       url: '/categories/new',
@@ -104,7 +126,13 @@ app.config(['$stateProvider','$urlRouterProvider', function($stateProvider, $url
     })
     .state('user', {
       url: '/u/:username',
-      controller: 'userCtrl'
+      templateUrl: '/partials/user.html',
+      controller: 'UserCtrl',
+      resolve: {
+        information: ['$stateParams', 'user', function($stateParams, user) {
+          return user.getInformation($stateParams.username);
+        }]
+      }
     });
 
   $urlRouterProvider.otherwise('/');

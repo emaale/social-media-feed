@@ -1,9 +1,20 @@
 <form class="entry box" ng-submit="editPost()">
 	<h2>Edit Post</h2>
 
-	<input ng-model="post.title" type="text" placeholder="Title" required>
-	<input ng-model="post.link" type="text" placeholder="Link">
-	<textarea ng-model="post.body" placeholder="Content"></textarea>
+	<p>
+		<label for="title">Title</label>
+		<input ng-model="post.title" type="text" placeholder="Title" name="title" required>
+	</p>
+
+	<p>
+		<label for="link">Link</label>
+		<input ng-model="post.link" type="text" name="title"  placeholder="Link" name="link">
+	</p>
+	
+	<p>
+		<label for="body">Body</label>
+		<textarea ng-model="post.body" placeholder="Content" name="body"></textarea>
+	</p>
 	
 	<button>Submit</button>
 </form>

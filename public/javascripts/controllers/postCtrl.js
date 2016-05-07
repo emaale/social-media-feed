@@ -1,11 +1,41 @@
 // Controller for posts
-app.controller('PostCtrl', ['$scope', '$stateParams', 'auth', 'post', 'fetchedPost', 'page', '$state', function($scope, $stateParams, auth, post, fetchedPost, page, $state) {
+app.controller('PostCtrl', ['$scope', '$stateParams', 'auth', 'post', 'fetchedPost', 'page', '$state', 'user', function($scope, $stateParams, auth, post, fetchedPost, page, $state, user) {
 	$scope.post = fetchedPost;
-	$scope.isLoggedIn = auth.isLoggedIn;
+	$scope.isLoggedIn = auth.isLoggedIn();
 	$scope.category = $scope.post.category;
 	$scope.currentUser = auth.currentUser;
 
-	page.setTitle($scope.category.name);
+	page.setTitle('/c/' + $scope.category.name);
+
+	var isCategorySaved = function() {
+		var saved = false;
+
+		// Iterate through the savedCategories and check if this category has been saved to that list
+		for (var i = 0; i < $scope.savedCategories.length; i++) {
+			// Check for matches
+			if($scope.savedCategories[i]._id == $scope.category._id) saved = true;
+		}
+
+		$scope.savedCategory = saved;
+	};
+
+	if($scope.isLoggedIn) {
+		$scope.savedCategories = user.savedCategories;
+		
+		isCategorySaved();
+	}
+
+	$scope.addSavedCategory = function(category) {
+		user.addSavedCategory(category).then(function(res) {
+			$scope.savedCategory = true;
+		});
+	};
+
+	$scope.removeSavedCategory = function(category) {
+		user.removeSavedCategory(category).then(function(res) {
+			$scope.savedCategory = false;
+		});
+	};
 
 	$scope.editPost = function() {
 		if(!$scope.post.title || $scope.post.title === '') { return; }

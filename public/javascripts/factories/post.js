@@ -15,6 +15,12 @@ app.factory('post', ['$http', 'auth', function($http, auth) {
 		});
 	};
 
+	o.search = function(query) {
+		return $http.get('/posts/search/title/' + query).then(function(res) {
+			return res.data;
+		});
+	};
+
 	o.create = function(categoryId, post) {
 		return $http.post('/categories/' + categoryId + '/posts', post, {
 			headers: { Authorization: 'Bearer ' + auth.getToken() }

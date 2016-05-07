@@ -1,0 +1,123 @@
+<section class="posts group-box">
+	<h2>Posts</h2>
+
+	<article ng-repeat="post in information.posts | orderBy:'-upvotes.length - downvotes.length'" class="post-preview group">
+		<!-- Vote score -->
+		<div class="vote">
+			<span ng-click="upvotePost(post, post.category.name)" ng-class="{active: post.upvotes.indexOf(currentUser()._id) != -1}" class="icon-arrow_drop_up vote-toggler"></span>
+			<span class="vote-score">{{ post.upvotes.length - post.downvotes.length }}</span>
+			<span ng-click="downvotePost(post, post.category.name)" ng-class="{active: post.downvotes.indexOf(currentUser()._id) != -1}" class="icon-arrow_drop_down vote-toggler"></span>
+		</div>
+		
+		<div class="post-content">
+			<!-- Title -->
+			<a href="{{post.link}}" ng-show="post.link"><h3 class="post-title">{{ post.title }}</h3></a>
+			<a ui-sref="post({ category: post.category.name, postId: post._id })" ng-hide="post.link"><h3 class="post-title">{{ post.title }}</h3></a>
+
+			<!-- Date and author -->
+			<span>Submitted at {{ post.created_at | date }} by <a ui-sref="user({ username: post.author.username })" class="user-link">{{ post.author.username }}</a></span>
+
+			<!-- Number of comments -->
+			<a ui-sref="post({ category: post.category.name, postId: post._id })" class="comment-link">{{ post.comments.length }} Comments</a>
+
+			<!-- Edit post link, only displays for owners of post -->
+			<a ui-sref="editPost({ category: post.category.name, postId: post._id })" ng-show="currentUser()._id == post.author._id"><span class="icon-mode_edit edit-post-link"></span></a>
+		</div>
+	</article>
+
+	<!-- Displayed when there are no posts -->
+	<p ng-show="information.posts.length == 0" class="error">This person hasn't made any posts.</p>
+</section>
+
+<section class="posts group-box">
+	<h2>Upvoted Posts</h2>
+
+	<article ng-repeat="post in information.upvotedPosts | orderBy:'-upvotes.length - downvotes.length'" class="post-preview group">
+		<!-- Vote score -->
+		<div class="vote">
+			<span ng-click="upvotePost(post, post.category.name)" ng-class="{active: post.upvotes.indexOf(currentUser()._id) != -1}" class="icon-arrow_drop_up vote-toggler"></span>
+			<span class="vote-score">{{ post.upvotes.length - post.downvotes.length }}</span>
+			<span ng-click="downvotePost(post, post.category.name)" ng-class="{active: post.downvotes.indexOf(currentUser()._id) != -1}" class="icon-arrow_drop_down vote-toggler"></span>
+		</div>
+		
+		<div class="post-content">
+			<!-- Title -->
+			<a href="{{post.link}}" ng-show="post.link"><h3 class="post-title">{{ post.title }}</h3></a>
+			<a ui-sref="post({ category: post.category.name, postId: post._id })" ng-hide="post.link"><h3 class="post-title">{{ post.title }}</h3></a>
+
+			<!-- Date and author -->
+			<span>Submitted at {{ post.created_at | date }} by <a ui-sref="user({ username: post.author.username })" class="user-link">{{ post.author.username }}</a></span>
+
+			<!-- Number of comments -->
+			<a ui-sref="post({ category: post.category.name, postId: post._id })" class="comment-link">{{ post.comments.length }} Comments</a>
+
+			<!-- Edit post link, only displays for owners of post -->
+			<a ui-sref="editPost({ category: post.category.name, postId: post._id })" ng-show="currentUser()._id == post.author._id"><span class="icon-mode_edit edit-post-link"></span></a>
+		</div>
+	</article>
+
+	<!-- Displayed when there are no posts -->
+	<p ng-show="information.upvotedPosts.length == 0" class="error">This person has not upvoted any posts.</p>
+</section>
+
+<section class="posts group-box">
+	<h2>Downvoted Posts</h2>
+
+	<article ng-repeat="post in information.downvotedPosts | orderBy:'-upvotes.length - downvotes.length'" class="post-preview group">
+		<!-- Vote score -->
+		<div class="vote">
+			<span ng-click="upvotePost(post, post.category.name)" ng-class="{active: post.upvotes.indexOf(currentUser()._id) != -1}" class="icon-arrow_drop_up vote-toggler"></span>
+			<span class="vote-score">{{ post.upvotes.length - post.downvotes.length }}</span>
+			<span ng-click="downvotePost(post, post.category.name)" ng-class="{active: post.downvotes.indexOf(currentUser()._id) != -1}" class="icon-arrow_drop_down vote-toggler"></span>
+		</div>
+		
+		<div class="post-content">
+			<!-- Title -->
+			<a href="{{post.link}}" ng-show="post.link"><h3 class="post-title">{{ post.title }}</h3></a>
+			<a ui-sref="post({ category: post.category.name, postId: post._id })" ng-hide="post.link"><h3 class="post-title">{{ post.title }}</h3></a>
+
+			<!-- Date and author -->
+			<span>Submitted at {{ post.created_at | date }} by <a ui-sref="user({ username: post.author.username })" class="user-link">{{ post.author.username }}</a></span>
+
+			<!-- Number of comments -->
+			<a ui-sref="post({ category: post.category.name, postId: post._id })" class="comment-link">{{ post.comments.length }} Comments</a>
+
+			<!-- Edit post link, only displays for owners of post -->
+			<a ui-sref="editPost({ category: post.category.name, postId: post._id })" ng-show="currentUser()._id == post.author._id"><span class="icon-mode_edit edit-post-link"></span></a>
+		</div>
+	</article>
+
+	<!-- Displayed when there are no posts -->
+	<p ng-show="information.downvotedPosts.length == 0" class="error">This person has not downvoted any posts.</p>
+</section>
+
+<section class="posts group-box">
+	<h2>Comments</h2>
+
+	<article ng-repeat="comment in information.comments | orderBy:'-upvotes.length - downvotes.length'" class="post-preview group">
+		<!-- Vote score -->
+		<div class="vote">
+			<span ng-click="upvoteComment(comment, comment.post._id, comment.post.category.name)" ng-class="{active: comment.upvotes.indexOf(currentUser()._id) != -1}" class="icon-arrow_drop_up vote-toggler"></span>
+			<span class="vote-score">{{ comment.upvotes.length - comment.downvotes.length }}</span>
+			<span ng-click="downvoteComment(comment, comment.post._id, comment.post.category.name)" ng-class="{active: comment.downvotes.indexOf(currentUser()._id) != -1}" class="icon-arrow_drop_down vote-toggler"></span>
+		</div>
+		
+		<div class="post-content">
+			<!-- Title -->
+			<a href="{{post.link}}" ng-show="comment.post.link"><h3 class="post-title">{{ comment.post.title }}</h3></a>
+			<a ui-sref="post({ category: comment.post.category.name, postId: comment.post._id })" ng-hide="comment.post.link"><h3 class="post-title">{{ comment.post.title }}</h3></a>
+
+			<p>
+				{{ comment.body }}
+			</p>
+
+			<p>
+				<span>Submitted at {{ comment.post.created_at | date }} by <a ui-sref="user({ username: comment.post.author.username })" class="user-link">{{ comment.post.author.username }}</a></span>
+			</p>
+
+		</div>
+	</article>
+
+	<!-- Displayed when there are no posts -->
+	<p ng-show="information.comments.length == 0" class="error">This person has not made any comments.</p>
+</section>

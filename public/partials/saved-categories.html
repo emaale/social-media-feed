@@ -1,0 +1,19 @@
+<section class="posts group-box">
+
+	<article ng-repeat="category in savedCategories | orderBy:'-upvotes.length - downvotes.length'" class="post-preview group">
+	
+		<div class="post-content">
+			<!-- Title -->
+			<a ui-sref="posts({ category: category.name })"><h3 class="post-title">{{ category.name }}</h3></a>
+
+			<!-- Description -->
+			<p>{{ category.description }}</p>
+
+			<!-- Add to saved categories -->
+			<a ng-click="removeSavedCategory(category)" class="action-btn" title="Remove from saved categories"><span class="icon-remove_circle"></span></a>
+		</div>
+	</article>
+
+	<!-- Displayed when there are no posts -->
+	<p ng-show="savedCategories.length == 0" class="error">You have no saved categories. Head over to <a ui-sref="categories()">categories</a> to find something you might like.</p>
+</section>

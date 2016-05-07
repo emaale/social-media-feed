@@ -12,6 +12,9 @@
     <script src="http://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.10/angular-ui-router.js"></script>
     <script type="text/javascript" src="/javascripts/newsFeedApp.js"></script>
 
+    <!-- Directives -->
+    <script type="text/javascript" src="/javascripts/directives/dropdown.js"></script>
+
     <!-- Factories -->
     <script type="text/javascript" src="/javascripts/factories/category.js"></script>
     <script type="text/javascript" src="/javascripts/factories/post.js"></script>
@@ -27,34 +30,36 @@
     <script type="text/javascript" src="/javascripts/controllers/authCtrl.js"></script>
     <script type="text/javascript" src="/javascripts/controllers/frontPageCtrl.js"></script>
     <script type="text/javascript" src="/javascripts/controllers/searchCtrl.js"></script>
+    <script type="text/javascript" src="/javascripts/controllers/categoryCtrl.js"></script>
+     <script type="text/javascript" src="/javascripts/controllers/savedCategoriesCtrl.js"></script>
 
   </head>
   <body ng-app="newsFeedApp">
+
     <!-- Header -->
     <header class="page-header" ng-controller="NavCtrl">
+
     	<!-- Navigation -->
     	<nav class="top-nav">
-    		<!-- Saved categories or a list of default -->
-    		<ul class="left-nav">
-    			<button class="expandable-nav-toggler" ng-click="show = !show">My Categories <span class="icon-arrow_drop_down"></span></button>
 
-    			<ul ng-init="show = false" ng-show="show" class="expandable-nav">
-    				<li><a href="">Category 1</a></li>
-	    			<li><a href="">Category 2</a></li>
-	    			<li><a href="">Category 3</a></li>
-	    			<li><a href="">Category 4</a></li>
-    			</ul>
-    		</ul>
+    		<!-- Saved categories or a list of default -->
+    		<nav class="left-nav">
+    			<button class="expandable-nav-toggler" ng-init="show = false" ng-click="show = !show">My Categories <span class="icon-arrow_drop_down"></span></button>
+
+                <a ui-sref="categories()">Categories</a>
+
+                <div data-dropdown></div>
+    		</nav>
 
     		<!-- User controls -->
-    		<ul class="right-nav">
+    		<nav class="right-nav">
                 <!-- Displayed when logged in -->
                 <a ui-sref="user({ username: currentUser().username })" ng-show="isLoggedIn()">{{ currentUser().username }}</a>
-                <a href="" ng-show="isLoggedIn()" ng-click="logOut()"><span class="icon-power"></span></a>
+                <a href="" ng-show="isLoggedIn()" ng-click="logOut()"><span class="icon-power_settings_new"></span></a>
 
                 <!-- Displayed when logged out -->
     			<a ui-sref="login" ng-hide="isLoggedIn()">Log In</a>
-    		</ul>
+    		</nav>
     	</nav>
 
         <footer class="page-header-footer">

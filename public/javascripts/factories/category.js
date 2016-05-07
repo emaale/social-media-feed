@@ -9,6 +9,12 @@ app.factory('category', ['$http', 'auth', function($http, auth) {
   		});
 	};
 
+	o.getAll = function() {
+		return $http.get('/categories').then(function(res){
+    		return res.data;
+  		});
+	};
+
 	o.create = function(category) {
 		return $http.post('/categories', category, {
 			headers: { Authorization: 'Bearer ' + auth.getToken() }

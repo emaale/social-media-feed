@@ -1,0 +1,14 @@
+<section class="posts group-box">
+
+	<article ng-repeat="category in categories | orderBy:'-upvotes.length - downvotes.length'" class="post-preview group">
+	
+		<div class="post-content">
+			<!-- Title -->
+			<a ui-sref="posts({ category: category.name })"><h3 class="post-title">{{ category.name }}</h3></a>
+
+			<!-- Description -->
+			<p>{{ category.description }}</p>
+		</div>
+	</article>
+
+</section>

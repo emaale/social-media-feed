@@ -2,15 +2,15 @@
 	<article ng-repeat="post in posts" class="post-preview group">
 		<!-- Vote score -->
 		<div class="vote">
-			<span ng-click="upvotePost(post)" ng-class="{active: post.upvotes.indexOf(currentUser()._id) != -1}" class="icon-arrow-up vote-toggler"></span>
+			<span ng-click="upvotePost(post)" ng-class="{active: post.upvotes.indexOf(currentUser()._id) != -1}" class="icon-arrow_drop_up vote-toggler"></span>
 			<span class="vote-score">{{ post.upvotes.length - post.downvotes.length }}</span>
-			<span ng-click="downvotePost(post)" ng-class="{active: post.downvotes.indexOf(currentUser()._id) != -1}" class="icon-arrow-down vote-toggler"></span>
+			<span ng-click="downvotePost(post)" ng-class="{active: post.downvotes.indexOf(currentUser()._id) != -1}" class="icon-arrow_drop_down vote-toggler"></span>
 		</div>
 
 		<div class="post-content">
 			<!-- Title -->
 			<a href="{{post.link}}" ng-show="post.link"><h3 class="post-title">{{ post.title }}</h3></a>
-			<a href="/c/{{post.category.name}}/posts/{{post._id}}" ng-hide="post.link"><h3 class="post-title">{{ post.title }}</h3></a>
+			<a ui-sref="post({ category: category.name, postId: post._id })" ng-hide="post.link"><h3 class="post-title">{{ post.title }}</h3></a>
 
 			<!-- Date and author -->
 			<span>Submitted at {{ post.created_at | date }} by <a ui-sref="user({ username: post.author.username })" class="user-link">{{ post.author.username }}</a></span>
@@ -19,22 +19,30 @@
 			<a ui-sref="post({ category: category.name, postId: post._id })" class="comment-link">{{ post.comments.length }} Comments</a>
 
 			<!-- Edit post link, only displays for owners of post -->
-			<a ui-sref="editPost({ category: category.name, postId: post._id })" ng-show="currentUser()._id == post.author._id"><span class="icon-pencil edit-post-link"></span></a>
+			<a ui-sref="editPost({ category: category.name, postId: post._id })" ng-show="currentUser()._id == post.author._id"><span class="icon-mode_edit edit-post-link"></span></a>
 		</div>
 	</article>
 
+	<!-- Displayed when there are no posts -->
 	<p ng-show="posts.length == 0" class="error">There doesn't seem to be any posts here! Please <a ui-sref="newPost({ category: category.name })">submit</a> one!</p>
 </section>
 
 <aside class="category-controls box">
 	<!-- Edit post link, only displays for owners of post -->
-	<a ui-sref="editCategory({ category: category.name })" ng-show="currentUser()._id == category.owner_id"><span class="icon-pencil edit-post-link"></span></a>
+	<a ui-sref="editCategory({ category: category.name })" ng-show="currentUser()._id == category.owner_id" class="edit-post-link">Edit</a>
 
-	<h3 class="category-name">{{ category.name }}</h3>
+	<a ui-sref="posts({ category: category.name })" class="category-name">/c/{{ category.name }}</a>
 
 	<p class="category-description">{{ category.description }}</p>
 
 	<!-- Login button and message if not logged in -->
-	<a ui-sref="newPost({ category: category.name })" ng-show="isLoggedIn()" class="new-post-btn"><span class="icon-pencil"></span> Submit New Post</a>
+	<a ui-sref="newPost({ category: category.name })" ng-show="isLoggedIn()" class="new-post-btn"><span class="icon-mode_edit"></span></a>
 	<p ng-hide="isLoggedIn()" class="not-logged-in">To make new posts you need to <a ui-sref="login">login</a></p>
+
+	<!-- Add or remove category in saved categories -->
+	<div ng-show="isLoggedIn" class="saved-category-controls">
+		<a ng-click="addSavedCategory(category)" ng-show="!savedCategory" title="Add to saved categories"><span class="icon-add_circle"></span></a>
+		<a ng-click="removeSavedCategory(category)" ng-show="savedCategory" title="Remove from saved categories"><span class="icon-remove_circle"></span></a>
+	</div>
+
 </aside>

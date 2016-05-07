@@ -1,5 +1,5 @@
-<form ng-submit="register()" class="authentication-form box">
-    <h3>Register</h3>
+<form ng-submit="register()" class="entry box authentication-form">
+    <h2>Register</h2>
 
     <div class="form-group">
       <input type="text" class="form-control" placeholder="Username" ng-model="user.username"></input>
@@ -15,5 +15,8 @@
 
     <button type="submit">Register</button>
 
-    <a ui-sref="login" class="login-or-register-link">Already got an account? Log In here!</a>
+    <p>
+        <a ui-sref="login" class="login-or-register-link">Already got an account? Log In here!</a>
+    </p>
+    
 </form>

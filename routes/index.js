@@ -107,7 +107,7 @@ router.get('/posts', function(req, res, next) {
 /*
 	CATEGORIES
 */
-// Get all categories based on search criteria
+// Get all categories
 router.get('/categories', function(req, res, next) {
 	Category.find(function(err, categories) {
 		// Handle errors
@@ -343,9 +343,25 @@ router.post('/categories/:category/posts/:post/comments', auth, function(req, re
 			// Handle errors
 			if(err){ return next(err); }
 
-			// Return comment
-			res.json(comment);
+			// Get the user and add their comment to their comments
+		  	User.findOne({username: comment.author}, function(err, user) {
+				// Handle errors if any
+				if(err) { return next(err); }
+
+				// Check if the requested user exists
+				if(!user) { return next(new Error("Can't find user")); }
+
+				user.comments.push(comment);
+				user.save(function(err, user) {
+					// Handle errors if any
+					if(err) { return next(err); }				
+
+					// Return comment
+					res.json(comment);
+				});
+			});
 		});
+
 	});
 });
 
@@ -430,25 +446,9 @@ router.post('/login', function(req, res, next) {
   	})(req, res, next);
 });
 
-// Fetch a users information (comments, posts, upvoted and downvoted posts) # TODO, add upvotedPosts and downvotedPosts arrays in the User model
+// Fetch a users information (comments, posts, upvoted and downvoted posts)
 router.get('/users/:user/information', function(req, res, next) {
-	req.user.populate('posts comments', function(err) {
-		// Handle errors
-		if(err){ return next(err); }
-
-		res.json({ 
-			_id: req.user._id,
-			username: req.user.username,
-			posts: req.user.posts,
-			comments: req.user.comments,
-			created_at: req.user.created_at
-		});
-	});
-});
-
-// Get information belonging to the user in the payload
-router.get('/user/information', auth, function(req, res, next) {
-	User.findOne({ _id: req.payload._id }, 'username created_at comments posts upvotedPosts downvotedPosts').populate('posts comments upvotedPosts downvotedPosts').exec(function(err, user) {
+	req.user.deepPopulate('comments comments.post comments.post.category comments.post.author posts posts.category posts.author upvotedPosts upvotedPosts.category upvotedPosts.author downvotedPosts downvotedPosts.category downvotedPosts.author', function(err, user) {
 		// Handle errors
 		if(err){ return next(err); }
 
@@ -473,9 +473,10 @@ router.post('/user/savedCategories', auth, function(req, res, next) {
 	User.findOne({ _id: req.payload._id }, function(err, user) {
 		// Handle errors
 		if(err){ return next(err); }
+		console.log(req.body);
 
 		// Add the category to the saved categories
-		user.savedCategories.push({ _id: req.body.category_id });
+		user.savedCategories.push({ _id: req.body._id });
 
 		user.save(function(err, user) {
 			// Handle errors
@@ -511,7 +512,7 @@ router.delete('/user/savedCategories/:savedCategory', auth, function(req, res, n
 			user.populate('savedCategories', function(err) {
 				// Handle errors
 				if(err){ return next(err); }
-
+				
 				// Return the users saved categories
 				res.json(user.savedCategories);
 			});

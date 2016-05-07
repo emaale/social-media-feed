@@ -1,9 +1,10 @@
 var mongoose = require('mongoose');
 var crypto = require('crypto');
 var jwt = require('jsonwebtoken');
+var deepPopulate = require('mongoose-deep-populate')(mongoose);
 
 var UserSchema = new mongoose.Schema({
-	username: {type: String, lowercase: true, unique: true},
+	  username: {type: String, lowercase: true, unique: true},
   	hash: String,
   	salt: String,
   	created_at: { type: Date, default: Date.now },
@@ -44,5 +45,7 @@ UserSchema.methods.generateJWT = function() {
     	exp: parseInt(exp.getTime() / 1000),
   	}, 'SECRET');
 };
+
+UserSchema.plugin(deepPopulate);
 
 mongoose.model('User', UserSchema);

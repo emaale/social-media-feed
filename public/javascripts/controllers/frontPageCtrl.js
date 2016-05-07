@@ -5,7 +5,7 @@ app.controller('FrontPageCtrl', ['$scope', 'auth', 'category', 'post', 'page', '
 	$scope.posts = fetchedPosts;
 
 	page.setTitle('Front Page');
-	console.log($scope.posts);
+	
 	$scope.newCategory = function() {
 		// Validate
 		if((!$scope.name || $scope.name === '') && (!$scope.description || $scope.description === '')) { return; }

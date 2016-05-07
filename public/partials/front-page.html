@@ -2,9 +2,9 @@
 	<article ng-repeat="post in posts | orderBy:'-upvotes.length - downvotes.length'" class="post-preview group">
 		<!-- Vote score -->
 		<div class="vote">
-			<span ng-click="upvotePost(post)" ng-class="{active: post.upvotes.indexOf(currentUser()._id) != -1}" class="icon-arrow-up vote-toggler"></span>
+			<span ng-click="upvotePost(post)" ng-class="{active: post.upvotes.indexOf(currentUser()._id) != -1}" class="icon-arrow_drop_up vote-toggler"></span>
 			<span class="vote-score">{{ post.upvotes.length - post.downvotes.length }}</span>
-			<span ng-click="downvotePost(post)" ng-class="{active: post.downvotes.indexOf(currentUser()._id) != -1}" class="icon-arrow-down vote-toggler"></span>
+			<span ng-click="downvotePost(post)" ng-class="{active: post.downvotes.indexOf(currentUser()._id) != -1}" class="icon-arrow_drop_down vote-toggler"></span>
 		</div>
 		
 		<div class="post-content">
@@ -19,14 +19,13 @@
 			<a ui-sref="post({ category: post.category.name, postId: post._id })" class="comment-link">{{ post.comments.length }} Comments</a>
 
 			<!-- Edit post link, only displays for owners of post -->
-			<a ui-sref="editPost({ category: post.category.name, postId: post._id })" ng-show="currentUser()._id == post.author._id"><span class="icon-pencil edit-post-link"></span></a>
+			<a ui-sref="editPost({ category: post.category.name, postId: post._id })" ng-show="currentUser()._id == post.author._id"><span class="icon-mode_edit edit-post-link"></span></a>
 		</div>
 	</article>
 
+	<!-- Displayed when there are no posts -->
+	<p ng-show="posts.length == 0" class="error">There doesn't seem to be any posts here! Please <a ui-sref="newPost({ category: category.name })">submit</a> one!</p>
 </section>
 
-<aside class="category-controls box">
-	<!-- Login button and message if not logged in -->
-	<a ui-sref="newCategory" ng-show="isLoggedIn()" class="new-post-btn"><span class="icon-pencil"></span> Submit New Category</a>
-	<p ng-hide="isLoggedIn()" class="not-logged-in">To make a new category you need to <a ui-sref="login">login</a></p>
-</aside>
+<!-- Add new item -->
+<a ui-sref="newCategory" ng-show="isLoggedIn()" class="new-post-btn"><span class="icon-mode_edit"></span></a>
