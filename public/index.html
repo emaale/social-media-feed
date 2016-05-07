@@ -34,19 +34,19 @@
      <script type="text/javascript" src="/javascripts/controllers/savedCategoriesCtrl.js"></script>
 
   </head>
-  <body ng-app="newsFeedApp">
+  <body data-ng-app="newsFeedApp">
 
     <!-- Header -->
-    <header class="page-header" ng-controller="NavCtrl">
+    <header class="page-header" data-ng-controller="NavCtrl">
 
     	<!-- Navigation -->
     	<nav class="top-nav">
 
     		<!-- Saved categories or a list of default -->
     		<nav class="left-nav">
-    			<button class="expandable-nav-toggler" ng-init="show = false" ng-click="show = !show">My Categories <span class="icon-arrow_drop_down"></span></button>
+    			<button class="expandable-nav-toggler" data-ng-init="show = false" data-ng-click="show = !show">My Categories <span class="icon-arrow_drop_down"></span></button>
 
-                <a ui-sref="categories()">Categories</a>
+                <a data-ui-sref="categories()">Categories</a>
 
                 <div data-dropdown></div>
     		</nav>
@@ -54,11 +54,11 @@
     		<!-- User controls -->
     		<nav class="right-nav">
                 <!-- Displayed when logged in -->
-                <a ui-sref="user({ username: currentUser().username })" ng-show="isLoggedIn()">{{ currentUser().username }}</a>
-                <a href="" ng-show="isLoggedIn()" ng-click="logOut()"><span class="icon-power_settings_new"></span></a>
+                <a data-ui-sref="user({ username: currentUser().username })" data-ng-show="isLoggedIn()">{{ currentUser().username }}</a>
+                <a href="" data-ng-show="isLoggedIn()" data-ng-click="logOut()"><span class="icon-power_settings_new"></span></a>
 
                 <!-- Displayed when logged out -->
-    			<a ui-sref="login" ng-hide="isLoggedIn()">Log In</a>
+    			<a data-ui-sref="login" data-ng-hide="isLoggedIn()">Log In</a>
     		</nav>
     	</nav>
 
@@ -66,7 +66,7 @@
             <!-- Logo -->
             <h1 class="page-logo">{{ page.title() }}</h1>
 
-            <input ng-model="searchQuery" ng-change="search()" class="search-bar" type="text" placeholder="Search...">    
+            <input data-ng-model="searchQuery" data-ng-change="search()" class="search-bar" type="text" placeholder="Search...">    
         </footer>
     </header>
 
@@ -74,13 +74,13 @@
     <div class="page-wrapper">
     	
     	<!-- Main section -->
-    	<section ui-view class="main-section group">
+    	<section data-ui-view class="main-section group">
     		
     	</section>
 
     	<!-- Footer -->
     	<footer class="page-footer">
-    		<span class="copyright">Copyright &copy 2015 Emanuel Alenius</span>
+    		<span class="copyright">Copyright &copy; 2015 Emanuel Alenius</span>
     	</footer>
     </div>
 
