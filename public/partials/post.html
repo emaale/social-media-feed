@@ -33,8 +33,8 @@
 	<p class="category-description">{{ category.description }}</p>
 
 	<!-- Login button and message if not logged in -->
-	<a ui-sref="newPost({ category: category.name })" ng-show="isLoggedIn()" class="new-post-btn"><span class="icon-mode_edit"></span></a>
-	<p ng-hide="isLoggedIn()" class="not-logged-in">To make new posts you need to <a ui-sref="login">login</a></p>
+	<a ui-sref="newPost({ category: category.name })" ng-show="isLoggedIn" class="new-post-btn"><span class="icon-mode_edit"></span></a>
+	<p ng-hide="isLoggedIn" class="not-logged-in">To make new posts you need to <a ui-sref="login">login</a></p>
 
 	<!-- Add or remove category in saved categories -->
 	<div ng-show="isLoggedIn" class="saved-category-controls">

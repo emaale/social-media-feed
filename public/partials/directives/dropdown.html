@@ -1,7 +1,7 @@
-<ul ng-show="show" class="expandable-nav">
-    <li><a ui-sref="home()">Front Page</a></li>
-	<li ng-repeat="category in savedCategories">
-        <a ui-sref="posts({ category: category.name })">{{ category.name }}</a>
+<ul data-ng-show="show" class="expandable-nav">
+    <li><a data-ui-sref="home()">Front Page</a></li>
+	<li data-ng-repeat="category in savedCategories">
+        <a data-ui-sref="posts({ category: category.name })">{{ category.name }}</a>
     </li>
-    <li ng-show="isLoggedIn"><a ui-sref="savedCategories()">Edit</a></li>
+    <li data-ng-show="isLoggedIn"><a data-ui-sref="savedCategories()">Edit</a></li>
 </ul>
