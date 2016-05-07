@@ -175,7 +175,7 @@ a:hover {
 	resize: vertical;
 }
 .entry button {
-	width: 100%
+	width: 100%;
 	max-width: 200px;
 	padding: 10px 25px;
 	background: #596BCF;
@@ -266,7 +266,7 @@ a:hover {
 	font-size: 14px;
 }
 .new-comment-form button {
-	width: 100%
+	width: 100%;
 	max-width: 200px;
 	padding: 10px 25px;
 	background: #596BCF;
