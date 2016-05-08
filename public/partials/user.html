@@ -4,9 +4,9 @@
 	<article ng-repeat="post in information.posts | orderBy:'-upvotes.length - downvotes.length'" class="post-preview group">
 		<!-- Vote score -->
 		<div class="vote">
-			<span ng-click="upvotePost(post, post.category.name)" ng-class="{active: post.upvotes.indexOf(currentUser()._id) != -1}" class="icon-arrow_drop_up vote-toggler"></span>
+			<span ng-click="upvotePost(post, post.category.name)" ng-class="{active: post.upvotes.indexOf(currentUser()._id) != -1}" class="icon-keyboard_arrow_up vote-toggler"></span>
 			<span class="vote-score">{{ post.upvotes.length - post.downvotes.length }}</span>
-			<span ng-click="downvotePost(post, post.category.name)" ng-class="{active: post.downvotes.indexOf(currentUser()._id) != -1}" class="icon-arrow_drop_down vote-toggler"></span>
+			<span ng-click="downvotePost(post, post.category.name)" ng-class="{active: post.downvotes.indexOf(currentUser()._id) != -1}" class="icon-keyboard_arrow_down vote-toggler"></span>
 		</div>
 		
 		<div class="post-content">
@@ -35,9 +35,9 @@
 	<article ng-repeat="post in information.upvotedPosts | orderBy:'-upvotes.length - downvotes.length'" class="post-preview group">
 		<!-- Vote score -->
 		<div class="vote">
-			<span ng-click="upvotePost(post, post.category.name)" ng-class="{active: post.upvotes.indexOf(currentUser()._id) != -1}" class="icon-arrow_drop_up vote-toggler"></span>
+			<span ng-click="upvotePost(post, post.category.name)" ng-class="{active: post.upvotes.indexOf(currentUser()._id) != -1}" class="icon-keyboard_arrow_up vote-toggler"></span>
 			<span class="vote-score">{{ post.upvotes.length - post.downvotes.length }}</span>
-			<span ng-click="downvotePost(post, post.category.name)" ng-class="{active: post.downvotes.indexOf(currentUser()._id) != -1}" class="icon-arrow_drop_down vote-toggler"></span>
+			<span ng-click="downvotePost(post, post.category.name)" ng-class="{active: post.downvotes.indexOf(currentUser()._id) != -1}" class="icon-keyboard_arrow_down vote-toggler"></span>
 		</div>
 		
 		<div class="post-content">
@@ -66,9 +66,9 @@
 	<article ng-repeat="post in information.downvotedPosts | orderBy:'-upvotes.length - downvotes.length'" class="post-preview group">
 		<!-- Vote score -->
 		<div class="vote">
-			<span ng-click="upvotePost(post, post.category.name)" ng-class="{active: post.upvotes.indexOf(currentUser()._id) != -1}" class="icon-arrow_drop_up vote-toggler"></span>
+			<span ng-click="upvotePost(post, post.category.name)" ng-class="{active: post.upvotes.indexOf(currentUser()._id) != -1}" class="icon-keyboard_arrow_up vote-toggler"></span>
 			<span class="vote-score">{{ post.upvotes.length - post.downvotes.length }}</span>
-			<span ng-click="downvotePost(post, post.category.name)" ng-class="{active: post.downvotes.indexOf(currentUser()._id) != -1}" class="icon-arrow_drop_down vote-toggler"></span>
+			<span ng-click="downvotePost(post, post.category.name)" ng-class="{active: post.downvotes.indexOf(currentUser()._id) != -1}" class="icon-keyboard_arrow_down vote-toggler"></span>
 		</div>
 		
 		<div class="post-content">
@@ -97,9 +97,9 @@
 	<article ng-repeat="comment in information.comments | orderBy:'-upvotes.length - downvotes.length'" class="post-preview group">
 		<!-- Vote score -->
 		<div class="vote">
-			<span ng-click="upvoteComment(comment, comment.post._id, comment.post.category.name)" ng-class="{active: comment.upvotes.indexOf(currentUser()._id) != -1}" class="icon-arrow_drop_up vote-toggler"></span>
+			<span ng-click="upvoteComment(comment, comment.post._id, comment.post.category.name)" ng-class="{active: comment.upvotes.indexOf(currentUser()._id) != -1}" class="icon-keyboard_arrow_up vote-toggler"></span>
 			<span class="vote-score">{{ comment.upvotes.length - comment.downvotes.length }}</span>
-			<span ng-click="downvoteComment(comment, comment.post._id, comment.post.category.name)" ng-class="{active: comment.downvotes.indexOf(currentUser()._id) != -1}" class="icon-arrow_drop_down vote-toggler"></span>
+			<span ng-click="downvoteComment(comment, comment.post._id, comment.post.category.name)" ng-class="{active: comment.downvotes.indexOf(currentUser()._id) != -1}" class="icon-keyboard_arrow_down vote-toggler"></span>
 		</div>
 		
 		<div class="post-content">

@@ -97,8 +97,8 @@ a:hover {
 .vote .vote-toggler {
 	display: block;
 	color: #ccc;
-	font-size: 28px;
-	margin-left: -6px;
+	font-size: 20px;
+	margin-left: -2px;
 }
 .active {
 	color: #7284E8 !important;
@@ -530,6 +530,12 @@ a:hover {
 }
 .icon-remove_circle:before {
     content: "\e15c";
+}
+.icon-keyboard_arrow_down:before {
+    content: "\e313";
+}
+.icon-keyboard_arrow_up:before {
+    content: "\e316";
 }
 .icon-person:before {
     content: "\e7fd";
